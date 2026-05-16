@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"SessionStart\", \"additionalContext\": \"Caveman mode ACTIVE (full intensity). Apply caveman rules every response until user says stop caveman or normal mode.\"}}'",
+            "statusMessage": "Activating caveman mode..."
+          }
+        ]
+      }
+    ]
+  }
+}
