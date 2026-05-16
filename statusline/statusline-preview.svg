@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">
+  <defs>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a3a3a"/>
+      <stop offset="100%" stop-color="#2a2a2a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- window -->
+  <rect x="10" y="10" width="800" height="180" rx="10" ry="10" fill="#1e1e1e" stroke="#000" stroke-opacity="0.4"/>
+
+  <!-- title bar -->
+  <rect x="10" y="10" width="800" height="28" rx="10" ry="10" fill="url(#bar)"/>
+  <rect x="10" y="28" width="800" height="10" fill="url(#bar)"/>
+  <circle cx="28" cy="24" r="6" fill="#ff5f56"/>
+  <circle cx="48" cy="24" r="6" fill="#ffbd2e"/>
+  <circle cx="68" cy="24" r="6" fill="#27c93f"/>
+  <text x="410" y="28" fill="#bbb" font-size="12" text-anchor="middle">claude — statusline</text>
+
+  <!-- prompt line -->
+  <text x="30" y="78" fill="#8a8a8a">~/dev/agentic-sdlc</text>
+  <text x="30" y="100" fill="#e0e0e0">
+    <tspan fill="#5fd7ff">❯</tspan>
+    <tspan fill="#e0e0e0"> claude </tspan>
+    <tspan fill="#8a8a8a">_</tspan>
+  </text>
+
+  <!-- statusline (the actual thing this repo provides) -->
+  <text x="30" y="150" xml:space="preserve">
+    <tspan fill="#5fd7ff">agentic-sdlc</tspan>
+    <tspan fill="#7a7a7a"> · </tspan>
+    <tspan fill="#5f87ff">git:(master)✗</tspan>
+    <tspan fill="#7a7a7a"> · </tspan>
+    <tspan fill="#5fd75f">$1.7533</tspan>
+    <tspan fill="#7a7a7a"> · </tspan>
+    <tspan fill="#ffd75f">58.8k/1M (6%)</tspan>
+    <tspan fill="#7a7a7a"> · </tspan>
+    <tspan fill="#9a9a9a">Opus 4.7</tspan>
+    <tspan fill="#7a7a7a"> · </tspan>
+    <tspan fill="#9a9a9a">sid:f34aebd1</tspan>
+  </text>
+
+  <!-- caption -->
+  <text x="30" y="178" fill="#5a5a5a" font-size="11">↑ the statusline rendered by this script</text>
+</svg>
