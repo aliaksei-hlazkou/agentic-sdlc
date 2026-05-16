@@ -48,7 +48,7 @@ done
 
 # Interactive prompt if no flag and a TTY is available
 if [ -z "$SCOPE" ]; then
-  if [ -r /dev/tty ]; then
+  if [ -t 1 ] && [ -r /dev/tty ]; then
     printf 'Install scope?\n  1) user    (~/.claude/skills) — default\n  2) project (./.claude/skills)\nChoice [1]: ' > /dev/tty
     read -r choice < /dev/tty || choice=""
     case "${choice:-1}" in
