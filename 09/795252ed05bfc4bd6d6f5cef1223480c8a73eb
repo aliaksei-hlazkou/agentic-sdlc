@@ -1,0 +1,23 @@
+orca-reload/README.md
+  s_cdf61f026e93e8::t_45f487607925bf 1-69
+orca-reload/index.test.mjs
+  s_cdf61f026e93e8::t_d722ac6256f239 1-352
+orca-reload/index.ts
+  s_cdf61f026e93e8::t_86441f7d120cc8 1-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "09795252ed05bfc4bd6d6f5cef1223480c8a73eb",
+  "prompts": {},
+  "sessions": {
+    "s_cdf61f026e93e8": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a191fd-94cf-779b-bc3e-1f7609f7d66f",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "aliaksei-hlazkou <16029205+aliaksei-hlazkou@users.noreply.github.com>"
+    }
+  }
+}
