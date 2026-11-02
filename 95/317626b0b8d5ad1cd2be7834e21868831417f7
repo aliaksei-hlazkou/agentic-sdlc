@@ -1,0 +1,27 @@
+orca-reload/index.ts
+  s_cdf61f026e93e8::t_8520768edbd293 42,49,53,57,61,70,97-98
+package.json
+  s_cdf61f026e93e8::t_036305b23af3f4 1-17
+orca-reload/index.test.mjs
+  s_cdf61f026e93e8::t_6264534ae2884c 39,315-316,332
+  s_cdf61f026e93e8::t_7487f33b4ab5df 2-3,285,290-297,309
+orca-reload/README.md
+  s_cdf61f026e93e8::t_be6bf45abad280 3,7,27
+  s_cdf61f026e93e8::t_6cd441a30c1406 30,33,35,63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "95317626b0b8d5ad1cd2be7834e21868831417f7",
+  "prompts": {},
+  "sessions": {
+    "s_cdf61f026e93e8": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a191fd-94cf-779b-bc3e-1f7609f7d66f",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "aliaksei-hlazkou <16029205+aliaksei-hlazkou@users.noreply.github.com>"
+    }
+  }
+}
