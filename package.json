@@ -1,0 +1,17 @@
+{
+  "name": "agentic-sdlc-pi",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "An Orca-compatible runtime reload command for Pi.",
+  "keywords": ["pi-package"],
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "pi": {
+    "extensions": ["./orca-reload/index.ts"],
+    "skills": [],
+    "prompts": [],
+    "themes": []
+  }
+}
