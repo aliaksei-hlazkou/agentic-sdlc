@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
-import { mkdtemp, mkdir, rm, symlink, writeFile } from 'node:fs/promises';
+import { spawn, spawnSync } from 'node:child_process';
+import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -36,7 +36,7 @@ function runtime({ sessionId = `test-${++nextSession}`, idle = true, hasUI = tru
   });
   return {
     sessionId, dialogs,
-    command: args => commands.get('orca-reload').handler(args, ctx),
+    command: args => commands.get('reload-orca').handler(args, ctx),
     onReload: handler => { reload = handler; },
     start: () => handlers.get('session_start')({ reason: 'reload' }, ctx),
     retire: () => { handlers.get('session_shutdown')(); active = false; },
@@ -282,13 +282,19 @@ function rpcProcess(args, options) {
   };
 }
 
-test('isolated real Pi RPC reload refreshes resources and preserves session state', { timeout: 90_000 }, async t => {
+test('isolated real Pi RPC reload through pi install preserves session state', { timeout: 90_000 }, async t => {
   const root = await mkdtemp(path.join(tmpdir(), 'orca-reload-test-'));
   const skills = path.join(root, 'skills');
   const agentDir = path.join(root, 'agent');
   await mkdir(skills);
-  await mkdir(path.join(agentDir, 'extensions'), { recursive: true });
-  await symlink(fileURLToPath(new URL('.', import.meta.url)), path.join(agentDir, 'extensions', 'orca-reload'), 'dir');
+  const env = {
+    PATH: process.env.PATH, HOME: root, TMPDIR: root,
+    PI_CODING_AGENT_DIR: agentDir, PI_OFFLINE: '1',
+  };
+  const installed = spawnSync('pi', ['install', fileURLToPath(new URL('..', import.meta.url))], {
+    cwd: root, env, encoding: 'utf8', timeout: 20_000,
+  });
+  assert.equal(installed.status, 0, `Pi package installation failed: ${installed.stderr}`);
   const fixturePath = path.join(root, 'fixture.ts');
   const fixture = version => `export default function(pi) {
     pi.registerCommand('fixture-seed', { description: 'Fixture version ${version}', handler: async () => {
@@ -300,16 +306,14 @@ test('isolated real Pi RPC reload refreshes resources and preserves session stat
     '--mode', 'rpc', '--no-session', '--no-mcp', '--no-skills',
     '--no-prompt-templates', '--no-context-files',
     '--extension', fixturePath, '--skill', skills, '--provider', 'google', '--model', 'gemini-2.5-flash', '--thinking', 'low',
-  ], { cwd: root, env: {
-    PATH: process.env.PATH, HOME: root, TMPDIR: root,
-    PI_CODING_AGENT_DIR: agentDir, PI_OFFLINE: '1',
-  } });
+  ], { cwd: root, env });
   t.after(async () => {
     await cli.close();
     await rm(root, { recursive: true, force: true });
   });
   const firstCommands = await cli.request('get_commands');
-  assert.ok(firstCommands.commands.some(command => command.name === 'orca-reload'));
+  assert.ok(firstCommands.commands.some(command => command.name === 'reload-orca'));
+  assert.ok(!firstCommands.commands.some(command => command.name === 'orca-reload'), 'do not retain the old command alias');
   const seeded = await cli.request('prompt', { message: '/fixture-seed' });
   assert.equal(seeded.disposition, 'handled');
   const before = await cli.request('get_state');
@@ -325,7 +329,7 @@ test('isolated real Pi RPC reload refreshes resources and preserves session stat
     await writeFile(path.join(directory, 'SKILL.md'), `---\nname: probe-${version}\ndescription: Isolated reload test fixture\n---\nTest fixture.\n`);
     const previousCount = cli.events.length;
     let commandReturned = false;
-    const reply = cli.request('prompt', { message: '/orca-reload' }).then(result => {
+    const reply = cli.request('prompt', { message: '/reload-orca' }).then(result => {
       commandReturned = true;
       return result;
     });

@@ -39,26 +39,26 @@ export default function orcaReload(pi: ExtensionAPI): void {
         ? 'Reload completed. Pi refreshed its runtime resources.'
         : 'Reload failed. Check the Pi diagnostics. Restart Pi if the session is unusable.');
     }).catch(() => {
-      process.stderr.write('orca-reload: the result card could not be displayed. Check the session and restart Pi if needed.\n');
+      process.stderr.write('reload-orca: the result card could not be displayed. Check the session and restart Pi if needed.\n');
     }).finally(() => {
       if (pending.get(sessionId) === operation) pending.delete(sessionId);
       operation.finishFeedback();
     });
   });
 
-  pi.registerCommand('orca-reload', {
+  pi.registerCommand('reload-orca', {
     description: 'Reload Pi resources when idle; preserve the current model and conversation',
     handler: async (args, ctx) => {
       if (!ctx.hasUI) {
-        process.stderr.write('orca-reload: a supported UI is required. Nothing was reloaded.\n');
+        process.stderr.write('reload-orca: a supported UI is required. Nothing was reloaded.\n');
         return;
       }
       if (ctx.mode !== 'rpc') {
-        await acknowledge(ctx, "Use native /reload in Pi's terminal. /orca-reload is for RPC chat.");
+        await acknowledge(ctx, "Use native /reload in Pi's terminal. /reload-orca is for RPC chat.");
         return;
       }
       if (args.trim()) {
-        await acknowledge(ctx, 'Use /orca-reload without arguments. Nothing was reloaded.');
+        await acknowledge(ctx, 'Use /reload-orca without arguments. Nothing was reloaded.');
         return;
       }
       const sessionId = ctx.sessionManager.getSessionId();
@@ -67,7 +67,7 @@ export default function orcaReload(pi: ExtensionAPI): void {
         return;
       }
       if (!ctx.isIdle()) {
-        await acknowledge(ctx, 'Wait for the current response or compaction to finish, then run /orca-reload again. Nothing was reloaded.');
+        await acknowledge(ctx, 'Wait for the current response or compaction to finish, then run /reload-orca again. Nothing was reloaded.');
         return;
       }
 
@@ -94,8 +94,8 @@ export default function orcaReload(pi: ExtensionAPI): void {
       }
       if (pending.get(sessionId) === operation) pending.delete(sessionId);
       process.stderr.write(outcome === 'completed'
-        ? 'orca-reload: reload completed without a replacement reporter. Check the extension installation and restart Pi.\n'
-        : 'orca-reload: reload failed before feedback was available. Restart Pi to recover.\n');
+        ? 'reload-orca: reload completed without a replacement reporter. Check the extension installation and restart Pi.\n'
+        : 'reload-orca: reload failed before feedback was available. Restart Pi to recover.\n');
     },
   });
 }

@@ -1,10 +1,10 @@
 # Orca reload
 
-A small Pi extension for `/orca-reload` in RPC chat, including Orca. It uses Pi's public APIs. It does not modify Orca or Pi.
+A small Pi extension for `/reload-orca` in RPC chat, including Orca. It uses Pi's public APIs. It does not modify Orca or Pi.
 
 ## Behavior
 
-Run `/orca-reload` without arguments.
+Run `/reload-orca` without arguments.
 
 - Refuse reload while the parent agent is working or compacting. Do not wait or cancel work.
 - Reload Pi's runtime resources through `ctx.reload()`.
@@ -24,19 +24,15 @@ Orca 1.4.244 ignores Pi notifications and custom message rows. Its supported que
 
 Reload replaces extension-owned runtime state. It is not a process restart. Existing third-party extensions still control their own startup and shutdown behavior.
 
-## Install
-
-From this repository:
+## Install in Pi
 
 ```bash
-cd ~/DCE/agentic-sdlc
-mkdir -p ~/.pi/agent/extensions
-ln -s "$PWD/orca-reload" ~/.pi/agent/extensions/orca-reload
+pi install git:github.com/aliaksei-hlazkou/agentic-sdlc@feat/orca-reload
 ```
 
-Do not replace an existing path. The symlink makes the extension available across projects without copying its source.
+The branch-qualified source installs this feature while its pull request is open. No manual folder setup, symlink or build is required.
 
-Restart the Pi agent in Orca once to load the command. Do not send `/reload` in Orca Chat to activate it. After that initial restart, use `/orca-reload` to refresh resources.
+Restart the Pi agent in Orca once to load the package, then run `/reload-orca`. Acknowledge or dismiss the result card to finish the command.
 
 ## Failure and recovery
 
@@ -64,6 +60,6 @@ From the repository root:
 node --test orca-reload/index.test.mjs
 ```
 
-The tests need the installed Pi CLI on `PATH`. The RPC test uses a temporary agent directory, the same directory-symlink installation layout, a minimal environment and offline mode. It loads no ambient user/project extensions, credentials, MCP servers or context files. It runs two reloads, changes fixture extension code, adds skills and checks preserved session state without inference. The client simulates Orca's cancellation of unanswered questions at command completion. Tests verify that the command stays pending until the card is acknowledged or dismissed.
+The tests need the installed Pi CLI on `PATH`. The RPC test uses `pi install` to register the package in a temporary agent directory. It uses a minimal environment and offline mode. It loads no ambient user/project extensions, credentials, MCP servers or context files. It runs two reloads, changes fixture extension code, adds skills and checks preserved session state without inference. The client simulates Orca's cancellation of unanswered questions at command completion. Tests verify that the command stays pending until the card is acknowledged or dismissed.
 
 Verified on macOS with Node 26.4.0, Pi 1.4.0 and the Orca 1.4.244 RPC-dialog contract. The real Pi RPC path is tested. Orca's graphical UI still needs a manual smoke test after the initial restart.
