@@ -27,10 +27,10 @@ Reload replaces extension-owned runtime state. It is not a process restart. Exis
 ## Install in Pi
 
 ```bash
-pi install git:github.com/aliaksei-hlazkou/agentic-sdlc@feat/orca-reload
+pi install git:github.com/aliaksei-hlazkou/agentic-sdlc
 ```
 
-The branch-qualified source installs this feature while its pull request is open. No manual folder setup, symlink or build is required.
+Pi installs the extension from this repository's default branch. No manual folder setup, symlink or build is required.
 
 Restart the Pi agent in Orca once to load the package, then run `/reload-orca`. Acknowledge or dismiss the result card to finish the command.
 
